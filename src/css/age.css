@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #040014;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+header img{
+    width: 7rem;
+}
+
+header h1{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-decoration: underline;
+    font-size: 1rem;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2.5rem;
+}
+
+.container-app{
+    width: 88%;
+    display: grid;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.container-app article{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+@media (min-width: 1000px) {
+    .container-app{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
