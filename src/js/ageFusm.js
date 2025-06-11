@@ -5,7 +5,11 @@ const HTMLResponse = document.querySelector("#container-app");
 fetch(`${API_URL}/sintesiss.json`)
     .then((response) => response.json())
     .then((sintesiss) => {
-        sintesiss.forEach((sintesis) => {
+        // Convertir objeto a array si es necesario
+        let arraySintesiss = Array.isArray(sintesiss) ? sintesiss : Object.values(sintesiss);
+        
+        // Revertir el orden
+        arraySintesiss.reverse().forEach((sintesis) => {
             const article = document.createElement('article');
             
             let h1F = document.createElement("h1");           
@@ -17,12 +21,10 @@ fetch(`${API_URL}/sintesiss.json`)
             a.innerText = "Click para ver";
             a.href = sintesis.contenido;
 
-            article.appendChild(h1F)
-            article.appendChild(h1)
-            article.appendChild(a)
+            article.appendChild(h1F);
+            article.appendChild(h1);
+            article.appendChild(a);
 
-            HTMLResponse.appendChild(article)
+            HTMLResponse.appendChild(article);
         });
     });
-
-
