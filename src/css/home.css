@@ -1,27 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 
-*{
+    width: 100%;
+}
+.hero_container{
+    display: flex;
+
+    height: 100%;
+    width: 85%;
+}
+
+.hero_container .CE_container{
+    height: 100%;
+    width: 50%;
+    padding: 0 .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: #ffffff solid;
+}
+.hero_container .CC_container{
+    height: 100%;
+    width: 50%;
+    padding: 0 .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: #ffffff solid;
+
+}
+.hero_container p{
+    font-size: 1.3rem;
+    font-family: "Roboto", sans-serif;
+
+}
+.hero_container h1{
+    font-size: 5rem;
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
     margin: 0;
-    padding: 0;
+
 }
 
-body{
-    background-color: #040014;
-    color: #ffffff;
+.info_container{
+    margin-top: 1rem;
+    width: 85%;
+}
+.info_container h2{
+    margin-top: 1rem;
+    font-family: "Raleway", sans-serif;
+    font-size: 1.5rem;
+}
+.info_container p{
+    padding: 0 1rem;
+}
+.info_container ul{
+    padding-left: 2.5rem;
+    list-style: square;
 }
 
-/*HEADER*/
-header {
-  position: fixed;
-  top: 0rem;
-  left: 0rem;
-  font-size: 1rem;
-  background-color: #f0f0f0;
-  height: 100%;
-  width: 5rem;
-  color: #040014;
-}
-/*HERO*/
+/*HERO
 main{
     display: flex;
     flex-direction: column;
@@ -48,7 +90,6 @@ main{
 .hero_container .CE_container p{
     margin-top: 1rem;
     font-size: 1.5rem;
-    font-family: "Roboto", sans-serif;
 
 }
 .hero_container .CE_container h1{
@@ -82,8 +123,40 @@ main{
 }
 
 
-/**/
 .info_container{
     margin-top: 5rem;
     margin-left: 22.4rem;
+}
+*/
+
+
+@media (min-width: 1030px) {
+    .hero_container{
+        width: 75%;
+    }
+    
+
+    .hero_container p{
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    }
+    
+    .hero_container h1{
+    margin-top: 4rem;
+    font-size: 22rem;
+    }
+
+    .info_container{
+        width: 75%;
+    }
+    .info_container h2{
+        margin-top: 2.2rem;
+        font-size: 2.5rem;
+    }
+    .info_container p{
+        font-size: 1.3rem;
+    }
+    .info_container ul{
+        font-size: 1.5rem;
+    }
 }
