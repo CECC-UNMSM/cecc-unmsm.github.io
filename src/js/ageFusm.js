@@ -16,7 +16,7 @@ fetch(`${API_URL}/sintesiss.json`)
             let h1 = document.createElement("h1");
             let a = document.createElement("a");
 
-            h1F.innerText = "AGE FUSM";
+            h1F.innerText = sintesis.tipo;
             h1.innerText = sintesis.titulo;
             a.innerText = "Click para ver";
             a.href = sintesis.contenido;
