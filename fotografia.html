@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Archivo Fotográfico — CECC</title>
+    <meta name="description" content="Archivo fotográfico del CECC. Galería responsiva con filtros por año y categoría, vista ampliada y descarga.">
+    <style>
+        :root{
+            --bg:#19212d; --card:#0b1220; --muted:#9aa4b2; --accent:#3b82f6; --glass: rgba(255,255,255,0.03);
+        }
+        *{box-sizing:border-box}
+        body{
+            margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+            background:linear-gradient(180deg,var(--bg),#071028 120%);
+            color:#e6eef8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+        }
+        header{
+            padding:28px 20px; max-width:1100px; margin:0 auto 18px;
+            display:flex; gap:18px; align-items:center; justify-content:space-between;
+        }
+        .brand{display:flex; gap:12px; align-items:center}
+        .logo{
+            width:56px; height:56px; border-radius:8px; background:linear-gradient(135deg,var(--accent),#7c3aed);
+            display:grid; place-items:center; font-weight:700; color:white;
+            box-shadow:0 6px 20px rgba(59,130,246,0.18);
+        }
+        h1{font-size:18px;margin:0}
+        p.lead{margin:0;color:var(--muted);font-size:13px}
+        .controls{
+            display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+            background:var(--glass); padding:8px; border-radius:10px;
+        }
+        .search{
+            display:flex; gap:8px; align-items:center; padding:6px 10px; background:transparent; border-radius:8px;
+        }
+        input[type="search"]{
+            background:transparent; border:0; color:inherit; outline:none; width:200px;
+        }
+        .filters{display:flex; gap:6px; flex-wrap:wrap}
+        .filters button{
+            background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted); padding:6px 10px; border-radius:8px;
+            cursor:pointer; font-size:13px;
+        }
+        .filters button.active{border-color:var(--accent); color:var(--accent); box-shadow:0 6px 18px rgba(59,130,246,0.08)}
+        main{max-width:1100px;margin:0 auto;padding:10px}
+        .grid{
+            display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;
+            transition:all .2s ease;
+        }
+        .card{
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-radius:10px; overflow:hidden; position:relative; cursor:pointer; border:1px solid rgba(255,255,255,0.03);
+        }
+        .card img{display:block; width:100%; height:160px; object-fit:cover; vertical-align:middle;}
+        .meta{
+            padding:8px 10px; font-size:13px; display:flex; justify-content:space-between; gap:8px; align-items:center;
+        }
+        .meta .title{font-weight:600}
+        .tags{font-size:12px;color:var(--muted)}
+        .badge{background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px; font-size:12px; color:var(--muted)}
+        /* Lightbox */
+        .lightbox{
+            position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,0.7); z-index:60;
+            padding:30px;
+        }
+        .lightbox.show{display:flex}
+        .lb-card{max-width:1100px; width:100%; max-height:90vh; background:#061021; border-radius:12px; overflow:hidden; display:grid; grid-template-columns:1fr 320px;}
+        .lb-media{display:grid; place-items:center; padding:16px; background:#061722;}
+        .lb-media img{max-width:100%; max-height:78vh; object-fit:contain; border-radius:6px;}
+        .lb-side{padding:14px 16px; color:var(--muted); display:flex; flex-direction:column; gap:10px;}
+        .lb-side h2{margin:0;color:#eaf4ff}
+        .meta-row{display:flex; gap:8px; align-items:center; justify-content:space-between}
+        .lb-actions{margin-top:auto; display:flex; gap:8px}
+        .btn{
+            padding:8px 12px; border-radius:8px; border:0; cursor:pointer; background:var(--accent); color:white; font-weight:600;
+        }
+        .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
+        .nav-arrows{position:absolute; inset:0; pointer-events:none}
+        .nav-arrows button{pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.35); border:0; color:white; width:44px;height:44px;border-radius:8px}
+        .nav-arrows .prev{left:18px} .nav-arrows .next{right:18px}
+        /* responsive */
+        @media (max-width:880px){
+            .lb-card{grid-template-columns:1fr;}
+            .lb-side{max-height:36vh; overflow:auto}
+            input[type="search"]{width:120px}
+        }
+        footer{max-width:1100px;margin:16px auto;padding:12px;color:var(--muted);font-size:13px;text-align:center}
+    </style>
+</head>
+<body>
+    <!--
+        Archivo: fotografia.html
+        Instrucciones: coloque las imágenes en la carpeta "images" junto a este archivo.
+        Nombres de ejemplo: foto1.jpg, foto2.jpg, ... o cambie los src de los <img>.
+    -->
+    <header>
+        <div class="brand">
+        <a class="navbar-brand d-flex align-items-center" href="index.html"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoOkrUs48JCZ16PC7PAxFnFbFtVgXxCXrreA&s" alt="logo-cecc" width="48" height="48" class="me-2 rounded"> <span class="fw-bold"></span> </a>
+            <div>
+                <h1>Archivo fotográfico — CECC</h1>
+                <p class="lead">Colección histórica y eventos. Filtra por año o categoría y abre para ver detalles.</p>
+            </div>
+        </div>
+
+        <div class="controls" role="region" aria-label="Controles de galería">
+            <div class="search" title="Buscar por título o etiqueta">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6"/></svg>
+                <input id="q" type="search" placeholder="Buscar..." aria-label="Buscar en el archivo">
+            </div>
+
+            <div class="filters" role="toolbar" aria-label="Filtros">
+                <button data-filter="all" class="active">Todas</button>
+                <button data-filter="2023">2023</button>
+                <button data-filter="2022">2022</button>
+                <button data-filter="exposicion">Exposición</button>
+                <button data-filter="evento">Evento</button>
+                <button data-filter="archivo">Archivo</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="grid" id="gallery" aria-live="polite">
+            <!-- Reemplace src de las imágenes con las suyas en /images/ -->
+            <article class="card" tabindex="0" data-title="Inauguración CECC" data-year="2023" data-tags="evento,inauguracion">
+                <img loading="lazy" src="images/foto1.jpg" alt="Inauguración CECC - público en sala">
+                <div class="meta">
+                    <div>
+                        <div class="title">Inauguración CECC</div>
+                        <div class="tags">2023 · Evento</div>
+                    </div>
+                    <div class="badge">Alta</div>
+                </div>
+            </article>
+            <article class="card" tabindex="0" data-title="Inauguración CECC" data-year="2023" data-tags="evento,inauguracion">
+                <img loading="lazy" src="images/foto1.jpg" alt="Inauguración CECC - público en sala">
+                <div class="meta">
+                    <div>
+                        <div class="title">Inauguración CECC</div>
+                        <div class="tags">2023 · Evento</div>
+                    </div>
+                    <div class="badge">Alta</div>
+                </div>
+            </article>
+            <article class="card" tabindex="0" data-title="Exposición temporal" data-year="2022" data-tags="exposicion,arte">
+                <img loading="lazy" src="images/foto2.jpg" alt="Visita a la exposición temporal">
+                <div class="meta">
+                    <div>
+                        <div class="title">Exposición temporal</div>
+                        <div class="tags">2022 · Exposición</div>
+                    </div>
+                    <div class="badge">Med</div>
+                </div>
+            </article>
+
+            <article class="card" tabindex="0" data-title="Archivo histórico A" data-year="1998" data-tags="archivo,historico">
+                <img loading="lazy" src="images/foto3.jpg" alt="Fotografía histórica del archivo">
+                <div class="meta">
+                    <div>
+                        <div class="title">Archivo histórico A</div>
+                        <div class="tags">1998 · Archivo</div>
+                    </div>
+                    <div class="badge">Low</div>
+                </div>
+            </article>
+
+            <!-- Añada más cards según necesite -->
+        </section>
+    </main>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Vista ampliada de imagen">
+        <div class="nav-arrows">
+            <button class="prev" id="prev" title="Anterior" aria-label="Anterior">&larr;</button>
+            <button class="next" id="next" title="Siguiente" aria-label="Siguiente">&rarr;</button>
+        </div>
+
+        <div class="lb-card" role="document">
+            <div class="lb-media">
+                <img id="lb-img" src="" alt="">
+            </div>
+            <aside class="lb-side">
+                <h2 id="lb-title">Título</h2>
+                <div class="meta-row">
+                    <div class="tags" id="lb-tags">Año · Categoría</div>
+                    <div class="tags" id="lb-year">Fecha</div>
+                </div>
+                <p id="lb-desc" style="margin:0;color:var(--muted);font-size:13px">Descripción breve o metadatos de la imagen.</p>
+                <div class="lb-actions">
+                    <a id="lb-download" class="btn" href="#" download>Descargar</a>
+                    <button id="lb-close" class="btn ghost">Cerrar</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>CECC — Archivo fotográfico. Mantenga las imágenes organizadas en /images/.</footer>
+
+    <script>
+        // Galería: filtros, búsqueda y lightbox
+        (function(){
+            const gallery = document.getElementById('gallery');
+            const items = Array.from(gallery.querySelectorAll('.card'));
+            const q = document.getElementById('q');
+            const filterButtons = document.querySelectorAll('.filters button');
+
+            function normalize(s){ return String(s||'').toLowerCase(); }
+
+            function applyFilter(query, tag){
+                items.forEach(item=>{
+                    const title = normalize(item.dataset.title);
+                    const tags = normalize(item.dataset.tags);
+                    const year = normalize(item.dataset.year);
+                    const matchesQuery = !query || title.includes(query) || tags.includes(query) || year.includes(query);
+                    const matchesTag = !tag || tag==='all' || year===tag || tags.split(',').includes(tag);
+                    item.style.display = (matchesQuery && matchesTag) ? '' : 'none';
+                });
+            }
+
+            q.addEventListener('input', ()=> applyFilter(normalize(q.value), document.querySelector('.filters button.active').dataset.filter));
+
+            filterButtons.forEach(btn=>{
+                btn.addEventListener('click', ()=>{
+                    filterButtons.forEach(b=>b.classList.remove('active'));
+                    btn.classList.add('active');
+                    applyFilter(normalize(q.value), btn.dataset.filter);
+                });
+            });
+
+            // Lightbox logic
+            const lightbox = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lb-img');
+            const lbTitle = document.getElementById('lb-title');
+            const lbTags = document.getElementById('lb-tags');
+            const lbYear = document.getElementById('lb-year');
+            const lbDesc = document.getElementById('lb-desc');
+            const lbDownload = document.getElementById('lb-download');
+            const lbClose = document.getElementById('lb-close');
+            const prevBtn = document.getElementById('prev');
+            const nextBtn = document.getElementById('next');
+
+            let currentIndex = -1;
+            function openLightbox(index){
+                const card = visibleItems()[index];
+                if(!card) return;
+                currentIndex = index;
+                const img = card.querySelector('img');
+                lbImg.src = img.src;
+                lbImg.alt = img.alt || card.dataset.title || '';
+                lbTitle.textContent = card.dataset.title || 'Sin título';
+                lbTags.textContent = (card.dataset.tags || '').split(',').map(s=>s.trim()).join(' · ');
+                lbYear.textContent = card.dataset.year || '';
+                lbDesc.textContent = img.alt || '—';
+                lbDownload.href = img.src;
+                lightbox.classList.add('show');
+                lightbox.setAttribute('aria-hidden','false');
+                document.body.style.overflow = 'hidden';
+                lbClose.focus();
+            }
+
+            function closeLightbox(){
+                lightbox.classList.remove('show');
+                lightbox.setAttribute('aria-hidden','true');
+                document.body.style.overflow = '';
+                currentIndex = -1;
+            }
+
+            function visibleItems(){ return items.filter(i=>i.style.display !== 'none'); }
+
+            function showNext(step){
+                const vis = visibleItems();
+                if(!vis.length) return;
+                currentIndex = (currentIndex + step + vis.length) % vis.length;
+                openLightbox(currentIndex);
+            }
+
+            // open on click or Enter
+            items.forEach((card,i)=>{
+                card.addEventListener('click', ()=>{
+                    const idx = visibleItems().indexOf(card);
+                    openLightbox(idx);
+                });
+                card.addEventListener('keydown', (e)=>{
+                    if(e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const idx = visibleItems().indexOf(card);
+                        openLightbox(idx);
+                    }
+                });
+            });
+
+            lbClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+            prevBtn.addEventListener('click', ()=> showNext(-1));
+            nextBtn.addEventListener('click', ()=> showNext(1));
+
+            document.addEventListener('keydown', (e)=>{
+                if(lightbox.classList.contains('show')){
+                    if(e.key === 'Escape') closeLightbox();
+                    if(e.key === 'ArrowRight') showNext(1);
+                    if(e.key === 'ArrowLeft') showNext(-1);
+                }
+            });
+
+            // Inicial: aplicar sin filtro
+            applyFilter('', 'all');
+        })();
+    </script>
+</body>
+</html>
+
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "gemdel-web.firebaseapp.com",
+    projectId: "gemdel-web",
+    storageBucket: "gemdel-web.appspot.com",
+    messagingSenderId: "TU_SENDER_ID",
+    appId: "TU_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  const folderRef = ref(storage, 'FOTOS-CECC');
+
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbTitle = document.getElementById('lb-title');
+  const lbTags = document.getElementById('lb-tags');
+  const lbYear = document.getElementById('lb-year');
+  const lbDesc = document.getElementById('lb-desc');
+  const lbDownload = document.getElementById('lb-download');
+  const lbClose = document.getElementById('lb-close');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  let items = [];
+  let currentIndex = -1;
+
+  function visibleItems(){ return items.filter(i=>i.style.display!=='none'); }
+
+  function openLightbox(index){
+    const card = visibleItems()[index];
+    if(!card) return;
+    currentIndex = index;
+    const img = card.querySelector('img');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || card.dataset.title || '';
+    lbTitle.textContent = card.dataset.title || 'Sin título';
+    lbTags.textContent = (card.dataset.tags || '').split(',').map(s=>s.trim()).join(' · ');
+    lbYear.textContent = card.dataset.year || '';
+    lbDesc.textContent = img.alt || '—';
+    lbDownload.href = img.src;
+    lightbox.classList.add('show');
+    lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    currentIndex = -1;
+  }
+
+  function showNext(step){
+    const vis = visibleItems();
+    if(!vis.length) return;
+    currentIndex = (currentIndex + step + vis.length) % vis.length;
+    openLightbox(currentIndex);
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+  prevBtn.addEventListener('click', ()=> showNext(-1));
+  nextBtn.addEventListener('click', ()=> showNext(1));
+  document.addEventListener('keydown', (e)=>{
+    if(lightbox.classList.contains('show')){
+      if(e.key==='Escape') closeLightbox();
+      if(e.key==='ArrowRight') showNext(1);
+      if(e.key==='ArrowLeft') showNext(-1);
+    }
+  });
+
+  async function loadPhotos(){
+    gallery.innerHTML = '<p style="color:#9aa4b2">Cargando fotos...</p>';
+    try{
+      const result = await listAll(folderRef);
+      gallery.innerHTML = '';
+      items = [];
+
+      for(const itemRef of result.items){
+        const url = await getDownloadURL(itemRef);
+        const name = itemRef.name.replace(/\.[^/.]+$/,"");
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.tabIndex = 0;
+        card.dataset.title = name;
+        card.dataset.year = "Desconocido";
+        card.dataset.tags = "Foto subida";
+        card.innerHTML = `
+          <img loading="lazy" src="${url}" alt="${name}">
+          <div class="meta">
+            <div>
+              <div class="title">${name}</div>
+              <div class="tags">Foto subida</div>
+            </div>
+            <div class="badge">📸</div>
+          </div>
+        `;
+
+        // Agregar evento para abrir lightbox
+        card.addEventListener('click', ()=>{
+          const idx = visibleItems().indexOf(card);
+          openLightbox(idx);
+        });
+        card.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter' || e.key===' '){
+            e.preventDefault();
+            const idx = visibleItems().indexOf(card);
+            openLightbox(idx);
+          }
+        });
+
+        gallery.appendChild(card);
+        items.push(card);
+      }
+
+      if(!result.items.length) gallery.innerHTML='<p style="color:#9aa4b2">No hay fotos en el almacenamiento.</p>';
+
+    }catch(err){
+      console.error(err);
+      gallery.innerHTML='<p style="color:#f87171">Error al cargar las fotos.</p>';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadPhotos);
+</script>
