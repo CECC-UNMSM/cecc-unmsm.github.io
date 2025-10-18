@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CECC - Inicio</title>
-  <script type="module" crossorigin src="./assets/main-BH5aB4wm.js"></script>
+  <script type="module" crossorigin src="./assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
+  <script type="module" crossorigin src="./assets/main-CS2dJC61.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/main-BtmJYOxZ.css">
 </head>
 <body>
@@ -19,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="public/sintesis.html">Asambleas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="public/sintesis.html">Sintesis</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Publicaciones</a></li>
                 </ul>
             </div>
@@ -32,8 +33,8 @@
             <div class="container-fluid py-3">
             <h1 class="display-5 fw-bold">Bienvenido al CECC</h1>
             <p class="col-md-8 fs-5">El Centro de estudiantes de Computación Científica (CECC) es un espacio de representacion estudiantil por y para estudiantes.</p>
-            <a class="btn btn-primary btn-lg me-2" href="#" role="button">Ver eventos</a>
-            <a class="btn btn-outline-primary btn-lg" href="/sintesis.html" role="button">Sintesis</a>
+            <a class="btn btn-primary btn-lg me-2" href="#" role="button">Ver Actividades</a>
+            <a class="btn btn-outline-primary btn-lg" href="public/sintesis.html" role="button">Sintesis</a>
             </div>
         </div>
 
@@ -52,7 +53,7 @@
 
         <!-- Sección de características -->
         <div class="row g-4">
-            <h2 class="h3 fw-bold">Mira nuestras publicaciones</h2>
+            <h2 class="h3 fw-bold">Mira nuestras Actividades</h2>
             <div class="col-md-4">
                 <div class="card h-100">
                     <div class="card-body">
@@ -81,7 +82,66 @@
                 </div>
             </div>
         </div>
+                    <!-- Sección: Archivo de fotos y documentos -->
+            <section class="mt-4">
+                <h3 class="h5 fw-bold mb-3">Archivo: Fotos y Documentos</h3>
+                <div class="row">
+                    <!-- Galería de fotos -->
+                    <div class="col-md-7 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="h6">Fotos</h4>
+                                <p class="text-muted small">Galería de eventos y actividades.</p>
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <a href="https://via.placeholder.com/800x600.png?text=Foto+1" target="_blank" rel="noopener">
+                                            <img src="https://via.placeholder.com/150x100.png?text=Foto+1" alt="Foto 1" class="img-fluid rounded">
+                                        </a>
+                                    </div>
+                                    <div class="col-4">
+                                        <a href="https://via.placeholder.com/800x600.png?text=Foto+2" target="_blank" rel="noopener">
+                                            <img src="https://via.placeholder.com/150x100.png?text=Foto+2" alt="Foto 2" class="img-fluid rounded">
+                                        </a>
+                                    </div>
+                                    <div class="col-4">
+                                        <a href="https://via.placeholder.com/800x600.png?text=Foto+3" target="_blank" rel="noopener">
+                                            <img src="https://via.placeholder.com/150x100.png?text=Foto+3" alt="Foto 3" class="img-fluid rounded">
+                                        </a>
+                                    </div>
+                                </div>
+                                <a class="btn btn-sm btn-outline-primary mt-3" href="public/fotografia.html" role="button">Ver galería completa</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lista de documentos -->
+                    <div class="col-md-5 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h4 class="h6">Documentos</h4>
+                                <p class="text-muted small">Actas, presentaciones y material descargable.</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Reglamento CECC.pdf
+                                        <a href="/public/docs/reglamento-cecc.pdf" class="btn btn-sm btn-primary" download target="_blank" rel="noopener">Descargar</a>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Acta Reunión - 2025.docx
+                                        <a href="/public/docs/acta-2025.docx" class="btn btn-sm btn-primary" download target="_blank" rel="noopener">Descargar</a>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Presentación - Taller.pptx
+                                        <a href="/public/docs/taller.pptx" class="btn btn-sm btn-primary" download target="_blank" rel="noopener">Descargar</a>
+                                    </li>
+                                </ul>
+                                <a class="btn btn-sm btn-outline-secondary mt-3" href="#" role="button">Ver todos los documentos</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
     </main>
+    
 
     <!-- Pie de página -->
     <footer class="bg-light text-center py-3">
