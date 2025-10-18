@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sintesis | CECC</title>
+
+</head>
+<body>
+    <!-- Navbar / Header -->
+    <header class="bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoOkrUs48JCZ16PC7PAxFnFbFtVgXxCXrreA&s" alt="logo-cecc" width="48" height="48" class="me-2 rounded"> <span class="fw-bold">CECC</span> </a>            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="sintesis.html">Asambleas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Textos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-9">
+                    <h1 class="h3 mb-1">Síntesis de Asambleas FUSM y Comité de Comensales</h1>
+                    <p class="text-muted mb-0">Resumen, acuerdos y seguimiento de las reuniones.</p>
+                </div>
+
+            </div>
+        </div>
+    </header>   
+
+    <main class="container my-4">
+        <!-- Dynamic app container (preserve id for your JS) -->
+        <div id="container-app" class="row g-3">
+            <!-- Example card placeholders; your JS can replace/add content here -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Asamblea 01</h5>
+                        <p class="card-text text-truncate">Resumen breve de acuerdos y puntos tratados en la asamblea.</p>
+                        <a href="https://firebasestorage.googleapis.com/v0/b/gemdel-web.appspot.com/o/AGE-FUSM%2F24-07-2025.jpg?alt=media&amp;token=454b0676-20b2-4e90-8958-f2305ed67190" class="btn btn-outline-primary btn-sm mt-2">Ver contenido</a>
+                    </div>
+                    <div class="card-footer text-muted small">Fecha: 2025-01-01</div>
+                </div>
+            </div>  
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Comité de Comensales</h5>
+                        <p class="card-text text-truncate">Puntos de seguimiento y tareas asignadas.</p>
+                    </div>
+                    <div class="card-footer text-muted small">Actualizado: hace 3 días</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-light py-3 mt-auto">
+        <div class="container text-center small text-muted">
+            © <span id="year"></span> AGES FUSM — Síntesis de Asambleas y Comité de Comensales
+        </div>
+    </footer>
+
+    <!-- Your app script (keeps existing behavior) -->
+    <script type="module" src="../src/js/ages.js"></script>
+
+    <script>
+        // Small helper: set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <script type="module" src="../src/js/main.js"></script>
+</body>
+</html>
